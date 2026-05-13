@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./Providers";
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -19,7 +20,18 @@ export default function RootLayout({
       lang="en"
     >
       <body className="min-h-full flex flex-col"> 
-               <Providers>{children}</Providers>
+               <Providers>
+                <Toaster
+  position="top-right"
+  toastOptions={{
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+  }}
+/>
+                {children}</Providers>
 </body>
     </html>
   );
