@@ -3,6 +3,15 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export default function MetricsPage() {
   const queryClient = useQueryClient();
@@ -44,10 +53,17 @@ export default function MetricsPage() {
     },
   });
 
+  const chartData = (metrics ?? []).map((m: any) => ({
+    date: new Date(m.date).toISOString().slice(0, 10),
+    revenue: Number(m.revenue),
+    users: Number(m.users),
+    conversions: Number(m.conversions),
+  }));
+
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <h2 className="text-2xl font-bold">Metrics</h2>
 
       <div className="space-y-3 rounded-xl bg-white p-4 shadow">
@@ -85,6 +101,33 @@ export default function MetricsPage() {
         >
           Add Metric
         </button>
+      </div>
+
+      <div className="rounded-xl bg-white p-4 shadow">
+        <h3 className="mb-4 text-lg font-semibold">Revenue trend</h3>
+        <div className="h-80 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
+              <defs>
+                <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="#6366f1"
+                fill="url(#revenueFill)"
+                strokeWidth={2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="space-y-3">

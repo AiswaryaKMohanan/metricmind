@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -10,7 +11,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // 🔒 Protect route
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -32,24 +32,42 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <h2 className="text-xl font-bold mb-8 text-indigo-600">MetricMind</h2>
 
         <nav className="space-y-4">
-          <a
+          <Link
             href="/dashboard"
             className="block text-gray-700 hover:text-indigo-600"
           >
             Dashboard
-          </a>
-          <a
+          </Link>
+          <Link
+            href="/dashboard/upload"
+            className="block text-gray-700 hover:text-indigo-600"
+          >
+            Upload
+          </Link>
+          <Link
+            href="/dashboard/metrics"
+            className="block text-gray-700 hover:text-indigo-600"
+          >
+            Metrics
+          </Link>
+          <Link
+            href="/dashboard/datasets"
+            className="block text-gray-700 hover:text-indigo-600"
+          >
+            Datasets
+          </Link>
+          <Link
             href="/dashboard/profile"
             className="block text-gray-700 hover:text-indigo-600"
           >
             Profile
-          </a>
-          <a
+          </Link>
+          <Link
             href="/dashboard/settings"
             className="block text-gray-700 hover:text-indigo-600"
           >
             Settings
-          </a>
+          </Link>
         </nav>
       </aside>
 
