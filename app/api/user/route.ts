@@ -1,7 +1,9 @@
 import { getServerSession } from "next-auth";
 import { PrismaClient } from "@/app/generated/prisma";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL,
+});
 
 export async function GET() {
   const session = await getServerSession();

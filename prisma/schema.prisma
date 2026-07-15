@@ -1,7 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// This is your Prisma schema file
 
 generator client {
   provider = "prisma-client-js"
@@ -24,11 +21,16 @@ model User {
 }
 
 model Metric {
-  id        String   @id @default(cuid())
-  title     String
-  value     Int
-  userId    String
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
 
-  user      User     @relation(fields: [userId], references: [id])
+  date        DateTime
+
+  revenue     Float
+  users       Int
+  conversions Int
+
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime @default(now())
 }
