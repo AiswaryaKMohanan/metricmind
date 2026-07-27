@@ -1,7 +1,9 @@
 import { PrismaClient } from "@/app/generated/prisma"; // adjust path if needed
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL,
+});
 
 export async function POST(req: Request) {
   const { email, password, name } = await req.json();
